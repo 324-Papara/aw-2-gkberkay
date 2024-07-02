@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Pa.Api.Validator;
 
 namespace Pa.Api.Controllers
 {
@@ -27,7 +28,7 @@ namespace Pa.Api.Controllers
             var item = list?.FirstOrDefault(x => x.Id == id);
             if (item is null)
             {
-                return new ApiResponse<Book>("Item not found in system.");
+                return new ApiResponse<Book>(["Item not found in system."]);
             }
 
             return new ApiResponse<Book>(item);
@@ -36,6 +37,14 @@ namespace Pa.Api.Controllers
         [HttpPost]
         public ApiResponse<List<Book>> Post([FromBody] Book value)
         {
+            BookValidator validator = new BookValidator();
+
+            var result = validator.Validate(value);
+            if(!result.IsValid)
+            {
+                return new ApiResponse<List<Book>>(result.Errors.Select(x=>x.ErrorMessage).ToList());
+            }
+
             list.Add(value);
             return new ApiResponse<List<Book>>(list);
         }
@@ -46,7 +55,7 @@ namespace Pa.Api.Controllers
             var item = list.FirstOrDefault(x => x.Id == id);
             if (item is null)
             {
-                return new ApiResponse<List<Book>>("Item not found in system.");
+                return new ApiResponse<List<Book>>(["Item not found in system."]);
             }
 
             list.Remove(item);
@@ -60,7 +69,7 @@ namespace Pa.Api.Controllers
             var item = list.FirstOrDefault(x => x.Id == id);
             if (item is null)
             {
-                return new ApiResponse<List<Book>>("Item not found in system.");
+                return new ApiResponse<List<Book>>(["Item not found in system."]);
             }
 
             list.Remove(item);

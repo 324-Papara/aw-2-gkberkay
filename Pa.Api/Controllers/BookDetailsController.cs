@@ -19,13 +19,13 @@ namespace Pa.Api.Controllers
         }
 
         [HttpGet("ByIdQuery")]
-        public Book ByIdQuery([FromQuery] int id)
+        public Book? ByIdQuery([FromQuery] int id)
         {
             return list?.FirstOrDefault(x => x.Id == id);
         }
 
         [HttpGet("ByIdRoute/{id}")]
-        public Book ByIdRoute([FromRoute] int id)
+        public Book? ByIdRoute([FromRoute] int id)
         {
             return list?.FirstOrDefault(x => x.Id == id);
         }

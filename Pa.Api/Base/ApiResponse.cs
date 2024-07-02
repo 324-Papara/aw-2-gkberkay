@@ -1,21 +1,24 @@
-namespace Pa.Api;
+﻿namespace Pa.Api;
 
-public class ApiResponse<T>
+public class ApiResponse<T> 
 {
-    public T Data { get; set; }
-    public string Error { get; set; }
+    public T? Data { get; set; }
+    public List<string> Errors { get; set; }
     public bool IsSuccess { get; set; }
+    public string Message { get; set; }
 
     public ApiResponse(T data)
     {
         this.Data = data;
         this.IsSuccess = true;
-        this.Error = string.Empty;
+        this.Errors = new List<string>();
+        this.Message = "İşlem başarıyla gerçekleştirildi.";
     }
-    
-    public ApiResponse(string message)
+
+    public ApiResponse(List<string> messages)
     {
         this.IsSuccess = false;
-        this.Error = message;
+        this.Errors = messages;
+        this.Message = "İşlem gerçekleştirilemedi.";
     }
 }
