@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using Pa.Api.Controllers;
 
 namespace Pa.Api;
 

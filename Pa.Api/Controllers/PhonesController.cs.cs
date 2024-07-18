@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Pa.Api.Controllers
 {
-    
+    [NonController]
     [ApiController]
     [Route("api/[controller]")]
     public class PhonesController : ControllerBase

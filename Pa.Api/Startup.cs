@@ -1,24 +1,43 @@
 using Microsoft.OpenApi.Models;
+using Para.Data.Context;
+using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
+using Para.Data.UnitOfWork;
+
 
 namespace Pa.Api;
 
 public class Startup
 {
     public IConfiguration Configuration;
-    
+
     public Startup(IConfiguration configuration)
     {
         this.Configuration = configuration;
     }
-    
-    
+
+
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddControllers();
+        services.AddControllers().AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+            options.JsonSerializerOptions.WriteIndented = true;
+            options.JsonSerializerOptions.PropertyNamingPolicy = null;
+        });
         services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "Pa.Api", Version = "v1" });
         });
+
+
+        string connectionStringSql = Configuration.GetConnectionString("MsSqlConnection");
+        services.AddDbContext<ParaSqlDbContext>(options => options.UseSqlServer(connectionStringSql));
+        //string connectionStringPostgre = Configuration.GetConnectionString("PostgresSqlConnection");
+        //services.AddDbContext<ParaPostgreDbContext>(options => options.UseNpgsql(connectionStringPostgre));
+
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

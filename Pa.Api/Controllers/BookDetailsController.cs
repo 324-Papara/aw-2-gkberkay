@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Pa.Api.Controllers
 {
+    [NonController]
     [ApiController]
     [Route("api/[controller]")]
     public class BookDetailsController : ControllerBase
@@ -50,9 +51,3 @@ namespace Pa.Api.Controllers
         
     }
 }
-
-// http://localhost:5029/pa/api/BookDetails/ByIdRoute/1
-// http://localhost:5029/pa/api/BookDetails/ByIdQuery?id=4
-
-// http://localhost:5029/pa/api/BookDetails/ByDetailQuery?id=1&name=aaa&author=bbb&pageCount=55
-// http://localhost:5029/pa/api/BookDetails/ByDetailRoute/1/aaa/bbb/55

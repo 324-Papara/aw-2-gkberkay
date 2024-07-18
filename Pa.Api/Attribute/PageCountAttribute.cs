@@ -8,7 +8,6 @@ public class PageCountAttribute : ValidationAttribute
     {
             
     }
-
     protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
         var model = (Book)validationContext.ObjectInstance;
